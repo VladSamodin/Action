@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div id="container" class="minWidth">
+        <header>
+            <div class="top-panel__logo">
+                <span class="top-panel__logo__item">My Auction</span>
+            </div>
+                <form id="search-top" class="top-panel__search" method="get" action="http://ay.by/sch/" name="search_top">
+                     <input class="search-string" maxlength="255" placeholder="Введите название лота" name="kwd" value="">
+                     <input class="top-panel__search__btn" type="submit" value="Найти" />
+                </form>
+        </header>
+        
+        <div id="middle-content" class="middle cfix">
+                <div id="mn-layout__inner" class="mn-layout__inner">
+                    <div class="mn-layout__col-1">
+                        @Html.Partial("_Menu")
+                    </div>
+                    <div class="mn-layout__col-2">
+                        Right col
+                        @RenderBody()
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    
+    
+    <footer class="minWidth">
+        <span>My Auction &copy; 2015</span>
+    </footer>
+        
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

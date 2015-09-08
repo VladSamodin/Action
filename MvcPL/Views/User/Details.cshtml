@@ -1,0 +1,45 @@
+﻿@model MvcPL.Models.User.UserViewModel
+
+@{
+    ViewBag.Title = "Details";
+
+    AjaxOptions ajaxDeleteOptions = new AjaxOptions
+    {
+        Confirm = "Confirm",
+        OnSuccess = "OnSuccess",
+        LoadingElementId = "loadingElement"
+    };
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <div id="loadingElement" style="display: none">
+        Please wait
+    </div>
+    <fieldset>
+
+        <legend>@Html.DisplayFor(model => model.Name)</legend>
+        <p>
+            @Html.LabelFor(model => model.Email):
+            @Html.DisplayFor(model => model.Email)
+        </p>
+        <p>
+            @Html.LabelFor(model => model.Role):
+            @Html.DisplayFor(model => model.Role)
+        </p>
+        <p>
+            @Html.ActionLink("Lots", "Index", "Lot", new { userId = Model.Id }, null)
+        </p>
+
+        @if (HttpContext.Current.User.IsInRole("Administrator"))
+        {
+            <p>
+                @using (Ajax.BeginForm("Delete", "User", new { id = Model.Id }, ajaxDeleteOptions, null))
+                {
+                    <input type="submit" value="Delete user">
+                }
+            </p>
+        }
+    </fieldset>
+</div>

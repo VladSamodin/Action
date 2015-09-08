@@ -1,0 +1,46 @@
+﻿@model IEnumerable<MvcPL.Models.Lot.LotViewModel>
+
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="7">
+            Нет лотов
+        </td>
+    </tr>
+}
+else
+{
+    foreach (var lot in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelLot => lot.Id)
+            </td>
+            <td>
+                Нет изображения
+            <td>
+                @Html.DisplayFor(modelLot => lot.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelLot => lot.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelLot => lot.CurrentPrice)$
+            </td>
+            <td>
+                @Html.DisplayFor(modelLot => lot.FinishDateTime)
+            </td>
+            <td>
+                @if (HttpContext.Current.User.IsInRole("Administrator"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = lot.Id })
+                }
+                @if (HttpContext.Current.User.IsInRole("Administrator"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = lot.Id })
+                }
+                @Html.ActionLink("Details", "Details", new { id = lot.Id })
+            </td>
+        </tr>
+    }
+}

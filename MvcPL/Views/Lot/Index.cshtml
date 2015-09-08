@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@model IEnumerable<MvcPL.Models.Lot.LotViewModel>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+<div class="row">
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Current price
+            </th>
+            <th>
+                Finish at
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+
+        <tbody id="list">
+            @Html.Partial("_List", Model)
+        </tbody>
+
+    </table>
+
+</div>

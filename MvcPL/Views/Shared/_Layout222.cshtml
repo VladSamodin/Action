@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+        @Styles.Render("~/Content/css")
+    <link href="~/Content/ay.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body id="minWidth">
+
+    <div id="top-page" class="outer">
+        <header id="top-panel" class="top-panel">
+            <div class="top-panel__logo">
+                <a class="top-panel__logo__item" href="http://ay.by/">My Auction</a>
+            </div>
+            <div class="top-panel__inner">
+                <ul id="userbar" class="top-panel__userbar">
+                    <li class="top-panel__userbar__li">
+                        <a class="top-panel__userbar__auth" href="http://ay.by/personal/login.phtml?back_uri=http%3A%2F%2Fay.by%2Fsch%2F%3Fkwd%3Diphone" onclick="Auth.open();return false;">
+                            <span class="top-panel__userbar__auth__lbl">Войти</span>
+                            <span class="top-panel__userbar__auth__ico" style="width:75px"></span>
+                        </a>
+                    </li>
+                    <li class="top-panel__userbar__li top-panel__userbar__addlot">
+                        <a class="top-panel__userbar__addlot__item" href="http://ay.by/sell/"> Выставить лот </a>
+                    </li>
+                </ul>
+                <form id="search-top" class="top-panel__search" method="get" action="http://ay.by/sch/" name="search_top">
+                    <div class="top-panel__search__inner top-panel__search__inner_full">
+                        <input id="top_any_hint" class="top-panel__search__input" type="text" spellcheck="false" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; background: none; color: #aaaaaa; float: none;" autocomplete="off" tabindex="1">
+                        <span class="ui-helper-hidden-accessible" role="status" aria-live="polite"></span>
+                        <input id="top_any" class="top-panel__search__input ui-autocomplete-input" type="text" style="position: relative; background-color: transparent;" maxlength="255" placeholder="Введите название лота" name="kwd" value="iphone" autocomplete="off">
+                        <span class="search-tools">
+                            <input class="reset" type="reset" value="">
+                            <button class="top-panel__search__btn" type="submit" onclick="this.blur();">
+                                <span class="top-panel__search__btn__item">
+                                    <i class="icon"></i>
+                                    <span class="top-panel__search__btn__txt">Найти</span>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </header>
+
+        <div class="breadcrumbs breadcrumbs_nsps">
+            <div class="main-nav main-nav_popup">
+                <div class="main-nav__inner">
+                    <strong class="main-nav__header">Все разделы</strong>
+                </div>
+            </div>
+            <a class="main-nav__mobile-showsmall" href="http://ay.by/catalog.phtml">Все разделы</a>
+            <div class="breadcrumbs__outer">
+                <div class="breadcrumbs__inner">
+                    <ul class="breadcrumbs__list">
+                        <li class="breadcrumbs__list__li active last first" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="">
+                            <a class="breadcrumbs__list__item" href="/sch/?kwd=iphone" itemprop="url">
+                                <span itemprop="title">Результаты поиска</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="middle-content" class="middle cfix">
+            <div class="page-init-scroll mn-layout mn-layout_gbg" data-page-init-scroll-top="-10">
+                <div id="mn-layout__inner" class="mn-layout__inner">
+                    <div class="mn-layout__col-1">
+                        <form id="fform" class="fm-form filters filters_side" data-facet-counter-action="/sch/?topic=0&ajax=1" method="get" action="/sch/"></form>
+                    </div>
+                    <div class="mn-layout__col-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="content">
+            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                @Html.Action("Info", "Account", new { email = HttpContext.Current.User.Identity.Name })
+            }
+            else
+            {
+                <div class="row">
+                    <p>You are @Html.ActionLink("not authorized user", "Login", "Account")</p>
+                </div>
+            }
+            @RenderBody()
+        </div>
+    </div>
+
+    <footer>
+        <span>My Auction &copy; 2015</span>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
