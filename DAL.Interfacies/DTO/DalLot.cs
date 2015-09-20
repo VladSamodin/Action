@@ -23,7 +23,7 @@ namespace DAL.Interface.DTO
 
         public DateTime FinishDateTime { get; set; }
 
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
 
         public int CategoryId { get; set; }
 

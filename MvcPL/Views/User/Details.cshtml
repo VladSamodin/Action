@@ -29,7 +29,7 @@
             @Html.DisplayFor(model => model.Role)
         </p>
         <p>
-            @Html.ActionLink("Lots", "Index", "Lot", new { userId = Model.Id }, null)
+            @Html.ActionLink("Lots", "Search", "Lot", new { userId = Model.Id }, null)
         </p>
 
         @if (HttpContext.Current.User.IsInRole("Administrator"))

@@ -10,19 +10,20 @@ namespace MvcPL.Providers
 {
     public class CustomRoleProvider : RoleProvider
     {
-        private IService<BllRole> roleService
+        /*
+        private IRoleService roleService
         {
             get
             {
-                return (IService<BllRole>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<BllRole>));
+                return (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
             }
         }
-
-        private IService<BllUser> userService
+        */
+        private IUserService userService
         {
             get
             {
-                return (IService<BllUser>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<BllUser>));
+                return (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
             }
         }
 
@@ -33,10 +34,9 @@ namespace MvcPL.Providers
         {
             // TODO: переписать
             BllUser bllUser = userService.GetByPredicate(u => u.Email == email).FirstOrDefault();
-            //BllUser bllUser = userService.GetAll().Where(u => u.Email == email).FirstOrDefault();
-            string[] roles = new string[1];
-            roles[0] = roleService.GetById(bllUser.RoleId).Name;
-            return roles;
+            if (bllUser == null)
+                return new string[0];
+            return userService.GetRoles(bllUser).Select(r => r.Name).ToArray();
         }
 
         public override void RemoveUsersFromRoles(string[] emails, string[] roleNames)

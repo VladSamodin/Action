@@ -20,10 +20,11 @@ namespace BLL.Services
             this.bidRepository = repository;
         }
 
-        public void Create(BllBid bllBid)
+        public BllBid Create(BllBid bllBid)
         {
-            bidRepository.Create(bllBid.ToDalBid());
+            BllBid newBid = bidRepository.Create(bllBid.ToDalBid()).ToBll();
             uow.Commit();
+            return newBid;
         }
 
         public void Delete(BllBid bllBid)

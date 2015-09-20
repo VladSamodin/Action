@@ -22,14 +22,21 @@ namespace BLL.Services
             this.bidService = bidService;
         }
 
-        public void Create(BllLot bllLot)
+        public BllLot Create(BllLot bllLot)
         {
-            lotRepository.Create(bllLot.ToDalLot());
+            BllLot newLot = lotRepository.Create(bllLot.ToDalLot()).ToBll();
             uow.Commit();
+            return newLot;
         }
 
         public void Delete(BllLot bllLot)
         {
+            //Проверка на существование?
+            IEnumerable<BllBid> bids = bidService.GetByPredicate(b => b.LotId == bllLot.Id);
+            foreach (var bid in bids)
+            {
+                bidService.Delete(bid);
+            }
             lotRepository.Delete(bllLot.ToDalLot());
             uow.Commit();
         }
@@ -68,7 +75,9 @@ namespace BLL.Services
 
         public IEnumerable<BllLot> GetByCategoryIdOrOwnerId(int? categoryId, int? ownerId)
         {
-            return GetByPredicate(lot => (categoryId.HasValue && lot.CategoryId == categoryId) || (ownerId.HasValue && lot.OwnerId == ownerId));
+            return GetByPredicate(lot => 
+                (categoryId.HasValue && lot.CategoryId == categoryId) 
+                || (ownerId.HasValue && lot.OwnerId == ownerId));
         }
 
         private BllLot setCurrentPrice(BllLot lot)

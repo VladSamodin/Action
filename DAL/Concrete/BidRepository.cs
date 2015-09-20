@@ -21,9 +21,9 @@ namespace DAL.Concrete
             this.context = uow;
         }
 
-        public void Create(DalBid dalBid)
+        public DalBid Create(DalBid dalBid)
         {
-            context.Set<Bid>().Add(dalBid.ToOrmBid());
+            return context.Set<Bid>().Add(dalBid.ToOrmBid()).ToDalBid();
         }
 
         public void Delete(DalBid dalBid)

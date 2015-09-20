@@ -12,6 +12,7 @@ namespace ORM.Entities
         {
             Bids = new HashSet<Bid>();
             Lots = new HashSet<Lot>();
+            Roles = new List<Role>();
         }
 
         public int Id { get; set; }
@@ -28,15 +29,16 @@ namespace ORM.Entities
         [MinLength(5), MaxLength(30)]
         public string Password { get; set; }
 
-        
+        /*
         [Required]
         public int RoleId { get; set; }
          
 
         public virtual Role Role { get; set; }
-        
+        */
 
-        //public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
+        
 
         public virtual ICollection<Bid> Bids { get; set; }
 

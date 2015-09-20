@@ -17,7 +17,17 @@ namespace MvcPL.Infrastructure.Mappers
                 Id = bllUser.Id,
                 Name = bllUser.Name,
                 Email = bllUser.Email,
-                Role = (Role)bllUser.RoleId
+                //Role = (Role)bllUser.RoleId
+            };
+        }
+
+        public static UserViewModel ToUserViewModel(this BllUser user)
+        {
+            return new UserViewModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
             };
         }
 
@@ -28,7 +38,7 @@ namespace MvcPL.Infrastructure.Mappers
                 Name = userCreateModel.Name,
                 Email = userCreateModel.Email,
                 Password = userCreateModel.Password,
-                RoleId = (int)userCreateModel.Role
+                //RoleId = (int)userCreateModel.Role
             };
         }
 
@@ -79,7 +89,7 @@ namespace MvcPL.Infrastructure.Mappers
                 StartPrice = lot.StartPrice,
                 StartDateTime = DateTime.Now,
                 FinishDateTime = lot.FinishDateTime,
-                //Image = lot.Image,
+                Image = lot.Image,
                 CategoryId = lot.CategoryId
             };
         }
@@ -91,7 +101,8 @@ namespace MvcPL.Infrastructure.Mappers
                 Id = lot.Id,
                 Name = lot.Name,
                 Description = lot.Description,
-                CategoryId = lot.CategoryId
+                CategoryId = lot.CategoryId,
+                Image = lot.Image
             };
         }
 
@@ -104,7 +115,8 @@ namespace MvcPL.Infrastructure.Mappers
                 Description = lot.Description,
                 CurrentPrice = lot.CurrentPrice,
                 FinishDateTime = lot.FinishDateTime,
-                //Image = lot.Image
+                Image = lot.Image,
+                OwnerId = lot.OwnerId
             };
         }
     }

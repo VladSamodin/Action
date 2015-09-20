@@ -12,9 +12,9 @@ namespace MvcPL.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IService<BllUser> service;
+        private readonly IUserService service;
 
-        public UserController(IService<BllUser> service)
+        public UserController(IUserService service)
         {
             this.service = service;
         }
@@ -118,5 +118,20 @@ namespace MvcPL.Controllers
                 return View(MvcPL.Infrastructure.Mappers.MvcMappers.ToMvcUser(bllUser));
             }
         }
+
+        [Authorize(Roles = "User")]
+        public ActionResult Lots()
+        {
+            // name == email????
+            BllUser bllUser = service.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+
+            if (bllUser == null)
+            {
+                return HttpNotFound();
+            }
+
+           return RedirectToAction("Search", "Lot", new {userId = bllUser.Id});
+        }
+
     }
 }

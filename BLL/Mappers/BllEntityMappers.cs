@@ -145,7 +145,7 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
 
@@ -157,7 +157,7 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
         #endregion
@@ -169,7 +169,7 @@ namespace BLL.Mappers
             return ToDal((dynamic)bllEntity);
         }
 
-        public static BLL.Interface.Entities.IEntity ToBll(this BLL.Interface.Entities.IEntity dalEntity)
+        public static BLL.Interface.Entities.IEntity ToBll(this DAL.Interface.DTO.IEntity dalEntity)
         {
             return ToBll((dynamic)dalEntity);
         }
@@ -314,7 +314,7 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
 
@@ -326,7 +326,7 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
         #endregion

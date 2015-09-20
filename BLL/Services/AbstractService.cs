@@ -26,10 +26,11 @@ namespace BLL.Services
         }
 
         //посмотреть visitor
-        public void Create(TBll bllEntity)
+        public TBll Create(TBll bllEntity)
         {
-            repository.Create((TDal)bllEntity.ToDal());
+            TBll newEntity = (TBll)repository.Create((TDal)bllEntity.ToDal()).ToBll();
             uow.Commit();
+            return newEntity;
         }
 
         public void Delete(TBll bllEntity)
@@ -40,7 +41,7 @@ namespace BLL.Services
 
         public void Update(TBll bllEntity)
         {
-            repository.Update((dynamic)bllEntity.ToDal());
+            repository.Update((TDal)bllEntity.ToDal());
             uow.Commit();
         }
 
@@ -56,7 +57,7 @@ namespace BLL.Services
 
         public IEnumerable<TBll> GetAll()
         {
-            return (IEnumerable<TBll>)repository.GetAll().Select(dalEntity => ((dynamic)dalEntity).ToBll());
+            return (IEnumerable<TBll>)repository.GetAll().Select(dalEntity => dalEntity.ToBll());
         }
 
         public TBll GetById(int id)
@@ -67,7 +68,7 @@ namespace BLL.Services
 
         public IEnumerable<TBll> GetByPredicate(System.Linq.Expressions.Expression<System.Func<TBll, bool>> expression)
         {
-            return (IEnumerable<TBll>)repository.GetByPredicate(ExpressionTransformer<TBll, TDal>.Transform(expression)).Select(dalEntity => ((dynamic)dalEntity).ToBll());
+            return (IEnumerable<TBll>)repository.GetByPredicate(ExpressionTransformer<TBll, TDal>.Transform(expression)).Select(dalEntity => dalEntity.ToBll());
         }
     }
 }

@@ -17,6 +17,10 @@ namespace MvcPL.Models.Lot
         [MaxLength(500, ErrorMessage = "Максимвальная длина описания 500 символов")]
         public string Description { get; set; }
 
+        [DataType(DataType.Upload)]
+        [Display(Name = "Image")]
+        public byte[] Image { get; set; }
+
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }

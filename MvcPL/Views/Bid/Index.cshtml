@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Bids";
+
+    AjaxOptions ajaxOptions = new AjaxOptions()
+    {
+        UpdateTargetId = "list",
+        LoadingElementId = "loadingElement"
+    };
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@model IEnumerable<MvcPL.Models.Bid.BidViewModel>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+<div class="row">
+
+    <div id="loadingElement" style="display: none">
+        Please wait
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Sum      
+            </th>
+            <th>
+                Time
+                @*Ajax.ActionLink("▲", "Index", new { itemId = Request.QueryString["itemId"], userId = Request.QueryString["userId"], directSortOrder = true, finished = Request.QueryString["finished"], page = Request.QueryString["page"] }, ajaxOptions)*@
+                @*Ajax.ActionLink("▼", "Index", new { itemId = Request.QueryString["itemId"], userId = Request.QueryString["userId"], directSortOrder = false, finished = Request.QueryString["finished"], page = Request.QueryString["page"] }, ajaxOptions)*@
+            </th>
+            <th>
+                Lot
+            </th>
+            <th>
+                User
+            </th>
+        </tr>
+
+        <tbody id="list">
+            @Html.Partial("_List", Model)
+        </tbody>
+
+    </table>
+
+</div>

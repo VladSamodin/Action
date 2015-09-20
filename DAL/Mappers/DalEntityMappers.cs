@@ -145,7 +145,7 @@ namespace DAL
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
 
@@ -157,7 +157,7 @@ namespace DAL
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                RoleId = user.RoleId
+                //RoleId = user.RoleId
             };
         }
         #endregion

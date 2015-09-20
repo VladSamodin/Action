@@ -1,0 +1,11 @@
+﻿@using MvcPL.Models.Category;
+@model IEnumerable<CategoryViewModel>
+
+<ul>
+    @foreach (var category in Model)
+    {
+        <li>
+            @Html.ActionLink(category.Name, "Search", "Lot", new { categoryId = category.Id }, new { @class = "btn btn-default btn-sm" })
+        </li>
+    }
+</ul>

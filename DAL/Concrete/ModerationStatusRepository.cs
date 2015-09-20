@@ -21,9 +21,9 @@ namespace DAL.Concrete
             this.context = uow;
         }
 
-        public void Create(DalModerationStatus dalModerationStatus)
+        public DalModerationStatus Create(DalModerationStatus dalModerationStatus)
         {
-            context.Set<ModerationStatus>().Add(dalModerationStatus.ToOrmModerationStatus());
+            return context.Set<ModerationStatus>().Add(dalModerationStatus.ToOrmModerationStatus()).ToDalModerationStatus();
         }
 
         public void Delete(DalModerationStatus dalModerationStatus)

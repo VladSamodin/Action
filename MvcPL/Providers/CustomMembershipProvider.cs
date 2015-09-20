@@ -11,6 +11,7 @@ namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
+        /*
         private IService<BllRole> roleService
         {
             get
@@ -18,12 +19,13 @@ namespace MvcPL.Providers
                 return (IService<BllRole>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<BllRole>));
             }
         }
+        */
 
-        private IService<BllUser> userService
+        private IUserService userService
         {
             get
             {
-                return (IService<BllUser>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<BllUser>));
+                return (IUserService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IUserService));
             }
         }
 
@@ -39,8 +41,14 @@ namespace MvcPL.Providers
             }
             else
             {
-                return new MembershipUser("CustomMembershipProvider", user.Email, null, user.Email, null, null, false, false, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+                //return new MembershipUser("CustomMembershipProvider", user.Email, null, user.Email, null, null, false, false, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+                return ToMembershipUser(user);
             }
+        }
+
+        private MembershipUser ToMembershipUser(BllUser user)
+        {
+            return new MembershipUser("CustomMembershipProvider", user.Email, null, user.Email, null, null, false, false, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
         }
 
         public MembershipUser CreateUser(UserCreateModel user)
@@ -51,8 +59,9 @@ namespace MvcPL.Providers
             }
             else
             {
-                userService.Create(user.ToBllUser());
-                return GetUser(user.Email, false);
+                return ToMembershipUser(userService.Create(user.ToBllUser()));
+
+                //return GetUser(user.Email, false);
             }
         }
 

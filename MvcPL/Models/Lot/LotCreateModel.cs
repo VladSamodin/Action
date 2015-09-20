@@ -26,11 +26,11 @@ namespace MvcPL.Models.Lot
         [Display(Name = "Finish date time (yyyy-MM-dd HH:MM:SS)")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FinishDateTime { get; set; }
-        /*
+        
         [DataType(DataType.Upload)]
         [Display(Name = "Image")]
         public byte[] Image { get; set; }
-        */
+        
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }

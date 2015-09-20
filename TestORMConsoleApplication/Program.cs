@@ -18,7 +18,7 @@ namespace TestORMConsoleApplication
                 Name = "123123",
                 Password = "123123",
                 Email = "sdfsdf@sfsf.com",
-                Role = new ORM.Entities.Role { Name = "user" },
+                //Role = new ORM.Entities.Role { Name = "user" },
             });
             /*
             em.Lots.Add(new ORM.Entities.Lot

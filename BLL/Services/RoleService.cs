@@ -9,21 +9,24 @@ using DAL.Interface.DTO;
 
 namespace BLL.Services
 {
-    public class RoleService : IService<BllRole>
+    //public class RoleService : IService<BllRole>
+    public class RoleService : IRoleService
     {
         private readonly IUnitOfWork uow;
-        private readonly IRepository<DalRole> roleRepository;
+        //private readonly IRepository<DalRole> roleRepository;
+        private readonly IRoleRepository roleRepository;
 
-        public RoleService(IUnitOfWork uow, IRepository<DalRole> repository)
+        public RoleService(IUnitOfWork uow, IRoleRepository repository)
         {
             this.uow = uow;
             this.roleRepository = repository;
         }
 
-        public void Create(BllRole bllRole)
+        public BllRole Create(BllRole bllRole)
         {
-            roleRepository.Create(bllRole.ToDalRole());
+            BllRole newRole = roleRepository.Create(bllRole.ToDalRole()).ToBll();
             uow.Commit();
+            return newRole;
         }
 
         public void Delete(BllRole bllRole)
@@ -62,6 +65,27 @@ namespace BLL.Services
         public IEnumerable<BllRole> GetByPredicate(System.Linq.Expressions.Expression<System.Func<BllRole, bool>> expression)
         {
             return roleRepository.GetByPredicate(ExpressionTransformer<BllRole, DalRole>.Transform(expression)).Select(dalRole => dalRole.ToBllRole());
+        }
+
+        // ДОПИСАТЬ
+
+        public void AddUser(BllRole bllRole, BllUser bllUser)
+        {
+            DalRole dalRole = roleRepository.GetById(bllRole.Id);
+            //??????????????????????????????????????????????????
+            roleRepository.AddUser(dalRole, bllUser.ToDal());
+        }
+
+        public void RemoveUser(BllRole bllRole, BllUser bllUser)
+        {
+            DalRole dalRole = roleRepository.GetById(bllRole.Id);
+            //??????????????????????????????????????????????????
+            roleRepository.RemoveUser(dalRole, bllUser.ToDal());
+        }
+
+        public IEnumerable<BllUser> GetUsers(BllRole bllRole)
+        {
+            return roleRepository.GetUsers(bllRole.ToDal()).Select(u => u.ToBll());
         }
     }
 }

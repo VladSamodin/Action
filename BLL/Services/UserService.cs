@@ -9,21 +9,23 @@ using DAL.Interface.DTO;
 
 namespace BLL.Services
 {
-    public class UserService : IService<BllUser>
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork uow;
-        private readonly IRepository<DalUser> userRepository;
+        //private readonly IRepository<DalUser> userRepository;
+        private readonly IUserRepository userRepository;
 
-        public UserService(IUnitOfWork uow, IRepository<DalUser> repository)
+        public UserService(IUnitOfWork uow, IUserRepository repository)
         {
             this.uow = uow;
             this.userRepository = repository;
         }
 
-        public void Create(BllUser bllUser)
+        public BllUser Create(BllUser bllUser)
         {
-            userRepository.Create(bllUser.ToDalUser());
+            BllUser newUser = userRepository.Create(bllUser.ToDalUser()).ToBll();
             uow.Commit();
+            return newUser;
         }
 
         public void Delete(BllUser bllUser)
@@ -62,6 +64,24 @@ namespace BLL.Services
         public IEnumerable<BllUser> GetByPredicate(System.Linq.Expressions.Expression<System.Func<BllUser, bool>> expression)
         {
             return userRepository.GetByPredicate(ExpressionTransformer<BllUser, DalUser>.Transform(expression)).Select(dalUser => dalUser.ToBllUser());
+        }
+
+        public void AddRole(BllUser bllUser, BllRole bllRole)
+        {
+            DalUser dalUser = userRepository.GetById(bllUser.Id);
+            //??????????????????????????????????????????????????
+            userRepository.AddRole(dalUser, bllRole.ToDal());
+        }
+
+        public void RemoveRole(BllUser bllUser, BllRole bllRole)
+        {
+            DalUser dalUser = userRepository.GetById(bllUser.Id);
+            userRepository.RemoveRole(dalUser, bllRole.ToDal());
+        }
+
+        public IEnumerable<BllRole> GetRoles(BllUser bllUser)
+        {
+            return userRepository.GetRoles(bllUser.ToDal()).Select(r => r.ToBll());
         }
     }
 }

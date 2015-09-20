@@ -20,10 +20,11 @@ namespace BLL.Services
             this.moderationStatusRepository = repository;
         }
 
-        public void Create(BllModerationStatus bllModerationStatus)
+        public BllModerationStatus Create(BllModerationStatus bllModerationStatus)
         {
-            moderationStatusRepository.Create(bllModerationStatus.ToDalModerationStatus());
+            BllModerationStatus newModerationStatus = moderationStatusRepository.Create(bllModerationStatus.ToDalModerationStatus()).ToBllModerationStatus();
             uow.Commit();
+            return newModerationStatus;
         }
 
         public void Delete(BllModerationStatus bllModerationStatus)

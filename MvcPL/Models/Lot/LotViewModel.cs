@@ -26,5 +26,7 @@ namespace MvcPL.Models.Lot
         public byte[] Image { get; set; }
 
         public CategoryViewModel Category { get; set; }
+
+        public int OwnerId { get; set; }
     }
 }

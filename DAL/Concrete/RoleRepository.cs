@@ -12,7 +12,7 @@ using ExpressionTransformer;
 
 namespace DAL.Concrete
 {
-    public class RoleRepository : IRepository<DalRole>
+    public class RoleRepository : IRoleRepository
     {
         private readonly DbContext context;
 
@@ -21,9 +21,9 @@ namespace DAL.Concrete
             this.context = uow;
         }
 
-        public void Create(DalRole dalRole)
+        public DalRole Create(DalRole dalRole)
         {
-            context.Set<Role>().Add(dalRole.ToOrmRole());
+            return context.Set<Role>().Add(dalRole.ToOrmRole()).ToDalRole();
         }
 
         public void Delete(DalRole dalRole)
@@ -74,6 +74,37 @@ namespace DAL.Concrete
         IEnumerable<DalRole> IRepository<DalRole>.GetByPredicate(Expression<Func<DalRole, bool>> expression)
         {
             return context.Set<Role>().Where(ExpressionTransformer<DalRole, Role>.Transform(expression)).AsEnumerable().Select(u => u.ToDalRole());
+        }
+
+        public void AddUser(DalRole dalRole, DalUser dalUser)
+        {
+            User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
+            Role ormRole = context.Set<Role>().SingleOrDefault(r => r.Id == dalRole.Id);
+            if (ormUser == null || ormRole == null)
+            {
+                // Exception??
+                return;
+            }
+            ormRole.Users.Add(ormUser);
+        }
+
+        public void RemoveUser(DalRole dalRole, DalUser dalUser)
+        {
+            User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
+            Role ormRole = context.Set<Role>().SingleOrDefault(r => r.Id == dalRole.Id);
+            if (ormUser == null || ormRole == null)
+            {
+                // Exception??
+                return;
+            }
+            // test
+            ormRole.Users.Remove(ormUser);
+        }
+
+        public IEnumerable<DalUser> GetUsers(DalRole dalRole)
+        {
+            Role ormRole = context.Set<Role>().SingleOrDefault(u => u.Id == dalRole.Id);
+            return ormRole != null ? ormRole.Users.Select(u => u.ToDalUser()) : null;
         }
     }
 }

@@ -12,8 +12,8 @@
         if (HttpContext.Current.User.IsInRole("User"))            
         {
             <!--<li>@Html.ActionLink("Личные данные", "Index", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>-->
-            <li>@Html.ActionLink("Мои лоты", "Index", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>
-            <li>@Html.ActionLink("Мои ставки", "Index", "Bid", null, new { @class = "btn btn-default btn-sm" })</li>
+            <li>@Html.ActionLink("Мои лоты", "Owner", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>
+            <li>@Html.ActionLink("Мои ставки", "My", "Bid", null, new { @class = "btn btn-default btn-sm" })</li>
         }
         if (HttpContext.Current.User.IsInRole("Administrator"))
         {
@@ -28,9 +28,7 @@
     }
     <p>Категории</p>
     <li>
-        <ul>
-            <li>@Html.ActionLink("Categories", "Index", "Category", null, new { @class = "btn btn-default btn-sm" })</li>
-        </ul>
+        @Html.Action("ShowCategories", "Category")
     </li>
 
 <!-- Перенести в Мои лоты
@@ -47,5 +45,6 @@
             </ul>
         </li>
     }
+   -->
 </ul>
-    -->
+    

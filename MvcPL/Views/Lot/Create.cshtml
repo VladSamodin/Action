@@ -7,6 +7,7 @@
 <h2>Create</h2>
 
 <div class="row">
+    <!-- если используется поле для отправки файла (input type="file"), следует определить атрибут enctype как multipart/form-data -->
     @using (Html.BeginForm("Create", "Lot", FormMethod.Post,new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -55,6 +56,13 @@
                 @Html.ValidationMessageFor(model => model.CategoryId)
             </div>
 
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Image)
+            </div>
+            <div class="editor-field">
+                <input type="file" name="uploadImage" />
+                @Html.ValidationMessageFor(model => model.Image)
+            </div>
             <p>
                 <input type="submit" class="btn btn-default" value="Create item" />
             </p>

@@ -27,12 +27,17 @@ namespace ORM
         // Сделать отдельные файлы конфигураций и убрать атрибуты
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+            /*
             modelBuilder.Entity<Role>()
                 .HasMany(e => e.Users)
                 .WithRequired(e => e.Role)
                 //.HasForeignKey(e => e.RoleId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Role>()
+                .HasMany(e => e.Users)
+                .WithMany(e => e.Roles);
+            */
             
             modelBuilder.Entity<Category>()
                 .HasMany(e => e.Lots)

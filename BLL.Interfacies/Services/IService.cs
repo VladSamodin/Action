@@ -7,7 +7,7 @@ namespace BLL.Interface.Services
 {
     public interface IService<TEntity> where TEntity : IEntity
     {
-        void Create(TEntity e);
+        TEntity Create(TEntity e);
         void Delete(TEntity e);
         void Update(TEntity e);
         int Count();

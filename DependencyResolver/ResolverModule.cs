@@ -42,8 +42,10 @@ namespace DependencyResolver
             kernel.Bind<IRepository<DalBid>>().To<BidRepository>();
             kernel.Bind<IRepository<DalCategory>>().To<CategoryRepository>();
             kernel.Bind<IRepository<DalLot>>().To<LotRepository>();
-            kernel.Bind<IRepository<DalRole>>().To<RoleRepository>();
-            kernel.Bind<IRepository<DalUser>>().To<UserRepository>();
+            //kernel.Bind<IRepository<DalRole>>().To<RoleRepository>();
+            //kernel.Bind<IRepository<DalUser>>().To<UserRepository>();
+            kernel.Bind<IRoleRepository>().To<RoleRepository>();
+            kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<IRepository<DalModerationStatus>>().To<ModerationStatusRepository>();
             #endregion
 
@@ -52,8 +54,10 @@ namespace DependencyResolver
             //kernel.Bind<IService<BllLot>>().To<LotService>();
             kernel.Bind<ILotService>().To<LotService>();
             kernel.Bind<IService<BllCategory>>().To<CategoryService>();
-            kernel.Bind<IService<BllRole>>().To<RoleService>();
-            kernel.Bind<IService<BllUser>>().To<UserService>();
+            //kernel.Bind<IService<BllRole>>().To<RoleService>();
+            //kernel.Bind<IService<BllUser>>().To<UserService>();
+            kernel.Bind<IRoleService>().To<RoleService>();
+            kernel.Bind<IUserService>().To<UserService>();
             kernel.Bind<IService<BllModerationStatus>>().To<ModerationStatusService>();
             #endregion
         }

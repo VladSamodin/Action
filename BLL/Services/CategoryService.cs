@@ -20,10 +20,11 @@ namespace BLL.Services
             this.categoryRepository = repository;
         }
 
-        public void Create(BllCategory bllCategory)
+        public BllCategory Create(BllCategory bllCategory)
         {
-            categoryRepository.Create(bllCategory.ToDalCategory());
+            BllCategory newCategory = categoryRepository.Create(bllCategory.ToDalCategory()).ToBll();
             uow.Commit();
+            return newCategory;
         }
 
         public void Delete(BllCategory bllCategory)

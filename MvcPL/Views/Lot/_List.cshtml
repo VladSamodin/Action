@@ -17,7 +17,14 @@ else
                 @Html.DisplayFor(modelLot => lot.Id)
             </td>
             <td>
-                Нет изображения
+                @if (lot.Image == null)
+                {
+                    <img class="image_min" src="~/Content/NoImage.svg">
+                }
+                else
+                {
+                    @Html.Raw(string.Format("<img class='image_min' src=\"data:image/jpeg;base64,{0}\" />", Convert.ToBase64String(lot.Image)))
+                }
             <td>
                 @Html.DisplayFor(modelLot => lot.Name)
             </td>
@@ -40,6 +47,11 @@ else
                     @Html.ActionLink("Delete", "Delete", new { id = lot.Id })
                 }
                 @Html.ActionLink("Details", "Details", new { id = lot.Id })
+                @if (lot.OwnerId == ViewBag.UserId)
+                {
+                    @:|@Html.ActionLink("Edit", "Edit", new { id = lot.Id })
+                    @:|@Html.ActionLink("Delete", "Delete", new { id = lot.Id })
+                }
             </td>
         </tr>
     }

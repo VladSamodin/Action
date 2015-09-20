@@ -23,7 +23,9 @@ namespace MvcPL
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", 
+                "~/Content/bootstrap/3.3.2/css/bootstrap.min.css",
+                "~/Content/bootstrap/3.3.2/css/bootstrap-theme.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

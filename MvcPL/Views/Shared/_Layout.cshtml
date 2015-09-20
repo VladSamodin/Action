@@ -14,23 +14,25 @@
             <div class="top-panel__logo">
                 <span class="top-panel__logo__item">My Auction</span>
             </div>
-                <form id="search-top" class="top-panel__search" method="get" action="http://ay.by/sch/" name="search_top">
-                     <input class="search-string" maxlength="255" placeholder="Введите название лота" name="kwd" value="">
-                     <input class="top-panel__search__btn" type="submit" value="Найти" />
-                </form>
+            
+                @using (Html.BeginForm("Search", "Lot", FormMethod.Get, new { id = "search-top", Class = "top-panel__search", name="search_top" }))
+                {
+                    @Html.TextBox("searchString", "",new { Class = "search-string", maxlength = "255", placeholder = "Введите название лота"});
+                    <input class="top-panel__search__btn" type="submit" value="Найти" />
+                }
         </header>
         
-        <div id="middle-content" class="middle cfix">
-                <div id="mn-layout__inner" class="mn-layout__inner">
-                    <div class="mn-layout__col-1">
-                        @Html.Partial("_Menu")
-                    </div>
-                    <div class="mn-layout__col-2">
-                        Right col
-                        @RenderBody()
-                    </div>
+        <main id="middle-content" class="middle cfix">
+            <div id="mn-layout__inner" class="mn-layout__inner">
+                <nav class="mn-layout__col-1">
+                    @Html.Partial("_Menu")
+                </nav>
+                <div class="mn-layout__col-2">
+                    Right col
+                    @RenderBody()
                 </div>
-        </div>
+            </div>
+        </main>
 
     </div>
     

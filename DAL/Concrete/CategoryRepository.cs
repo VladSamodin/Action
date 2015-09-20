@@ -21,9 +21,9 @@ namespace DAL.Concrete
             this.context = uow;
         }
 
-        public void Create(DalCategory dalCategory)
+        public DalCategory Create(DalCategory dalCategory)
         {
-            context.Set<Category>().Add(dalCategory.ToOrmCategory());
+            return context.Set<Category>().Add(dalCategory.ToOrmCategory()).ToDalCategory();
         }
 
         public void Delete(DalCategory dalCategory)

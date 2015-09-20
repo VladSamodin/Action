@@ -12,7 +12,8 @@ using ExpressionTransformer;
 
 namespace DAL.Concrete
 {
-    public class UserRepository : IRepository<DalUser>
+    //public class UserRepository : IRepository<DalUser>
+    public class UserRepository : IUserRepository
     {
         private readonly DbContext context;
 
@@ -22,9 +23,9 @@ namespace DAL.Concrete
         }
 
         //public DalUser Create(DalUser dalUser)
-        public void Create(DalUser dalUser)
+        public DalUser Create(DalUser dalUser)
         {
-            context.Set<User>().Add(dalUser.ToOrmUser());
+            return context.Set<User>().Add(dalUser.ToOrmUser()).ToDalUser();
         }
 
         public void Delete(DalUser dalUser)
@@ -47,7 +48,6 @@ namespace DAL.Concrete
                 ormUser.Name = dalUser.Name;
                 ormUser.Email = dalUser.Email;
                 ormUser.Password = dalUser.Password;
-                ormUser.RoleId = dalUser.RoleId;
                 context.Entry<User>(ormUser).State = EntityState.Modified;
             }
         }
@@ -77,6 +77,37 @@ namespace DAL.Concrete
         IEnumerable<DalUser> IRepository<DalUser>.GetByPredicate(Expression<Func<DalUser, bool>> expression)
         {
             return context.Set<User>().Where(ExpressionTransformer<DalUser, User>.Transform(expression)).AsEnumerable().Select(u => u.ToDalUser());
+        }
+
+        public void AddRole(DalUser dalUser, DalRole dalRole)
+        {
+            User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
+            Role ormRole = context.Set<Role>().SingleOrDefault(r => r.Id == dalRole.Id);
+            if (ormUser == null || ormRole == null)
+            {
+                // Exception??
+                return;
+            }
+            ormUser.Roles.Add(ormRole);
+        }
+
+        public void RemoveRole(DalUser dalUser, DalRole dalRole)
+        {
+            User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
+            Role ormRole = context.Set<Role>().SingleOrDefault(r => r.Id == dalRole.Id);
+            if (ormUser == null || ormRole == null)
+            {
+                // Exception??
+                return;
+            }
+            // test
+            ormUser.Roles.Remove(ormRole);
+        }
+
+        public IEnumerable<DalRole> GetRoles(DalUser dalUser)
+        {
+            User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
+            return ormUser != null ? ormUser.Roles.Select(r => r.ToDalRole()) : null;
         }
     }
 }

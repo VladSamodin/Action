@@ -49,6 +49,7 @@
     <Compile Include="DTO\DalModerationStatus.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Repository\IRoleRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

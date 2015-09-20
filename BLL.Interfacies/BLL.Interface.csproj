@@ -47,6 +47,7 @@
     <Compile Include="Entities\BllRole.cs" />
     <Compile Include="Entities\BllUser.cs" />
     <Compile Include="Services\ILotService.cs" />
+    <Compile Include="Services\IRoleService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

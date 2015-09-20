@@ -20,9 +20,9 @@ namespace DAL.Concrete
             this.context = uow;
         }
 
-        public void Create(DalLot dalLot)
+        public DalLot Create(DalLot dalLot)
         {
-            context.Set<Lot>().Add(dalLot.ToOrmLot());
+            return context.Set<Lot>().Add(dalLot.ToOrmLot()).ToDalLot();
         }
 
         public void Delete(DalLot dalLot)
