@@ -5,16 +5,25 @@
 }
 
 
-<div class="row">
-    @Html.ActionLink(Model.Category.Name, "Search", "Lot", new { categoryId = Model.Category.Id }, null)
+<div >
+    Category -> @Html.ActionLink(Model.Category.Name, "Search", "Lot", new { categoryId = Model.Category.Id }, null)
     <h2>@Html.DisplayFor(model => model.Name)</h2>
+    @if (Model.Image == null)
+    {
+        <img class="image_max" src="~/Content/NoImage.svg">
+    }
+    else
+    {
+        @Html.Raw("<a href=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" rel='lightgallery'><img class='image_max' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" /></a>")
+    }
     <div>
-        @Html.DisplayNameFor(model => model.CurrentPrice) : @Html.DisplayFor(model => model.CurrentPrice)
+        @Html.DisplayNameFor(model => model.CurrentPrice) : @Html.DisplayFor(model => model.CurrentPrice) 
         <br />
         @if (!ViewBag.OwnerView)
         {
             using (Html.BeginForm("Create", "Bid", new { id = Model.Id }, FormMethod.Post))
             {
+               @:Your bid in $ :
                @Html.TextBox("newBid") 
                 //@Html.ValidateFor()
                <input type="submit" value="Make bid" />
@@ -30,6 +39,8 @@
         @Html.ActionLink("Bids", "Lot", "Bid", new { lotId = Model.Id }, null)
         <br />
         @Html.DisplayNameFor(model => model.FinishDateTime) : @Html.DisplayFor(model => model.FinishDateTime)
+        <br />
+        @Html.ActionLink("owner", "Details", "User", new { id = Model.OwnerId }, null)
     </div>
 
     <table class="table table-striped" id="details">
@@ -39,55 +50,8 @@
             </th>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="4">
                 @Html.DisplayFor(model => model.Description)
-            </td>
-            <td colspan="2">
-                @if (Model.Image == null)
-                {
-                    <img class="image_max" src="~/Content/NoImage.svg">
-                }
-                else
-                {
-                    @Html.Raw("<a href=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" rel='lightgallery'><img class='image_max' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" /></a>")
-                }
-            </td>
-        </tr>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinishDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.CurrentPrice)$
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.FinishDateTime)
-            </td>
-            <td>
-                @Html.ActionLink(Model.Category.Name, "Search", "Lot", new { categoryId = Model.Category.Id }, null)
-            </td>
-            <td>
-                @if (HttpContext.Current.User.IsInRole("Administrator"))
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-                }
-                @if (HttpContext.Current.User.IsInRole("Administrator"))
-                {
-                    @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
-                }
-                @Html.ActionLink("Bids", "Index", "Bid", new { itemId = Model.Id }, null)
-                @Html.ActionLink("Make bid", "Create", "Bid", new { id = Model.Id }, null)
             </td>
         </tr>
     </table>

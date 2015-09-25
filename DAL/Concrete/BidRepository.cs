@@ -37,18 +37,21 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalBid dalBid)
+        public DalBid Update(DalBid dalBid)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             Bid ormBid = context.Set<Bid>().SingleOrDefault(u => u.Id == dalBid.Id);
             if (ormBid != null)
             {
+                DalBid oldBid = ormBid.ToDalBid();
                 ormBid.LotId = dalBid.LotId;
                 ormBid.UserId = dalBid.UserId;
                 ormBid.Sum = dalBid.Sum;
                 ormBid.DateTime = dalBid.DateTime;
                 context.Entry<Bid>(ormBid).State = EntityState.Modified;
+                return oldBid;
             }
+            return null;
         }
 
         public int Count()

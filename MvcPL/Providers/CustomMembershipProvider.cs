@@ -65,6 +65,26 @@ namespace MvcPL.Providers
             }
         }
 
+        public MembershipUser UpdateUserData(UserEditModel user, String oldEmail)
+        {
+            BllUser bllUser = userService.GetByPredicate(u => u.Email == oldEmail).FirstOrDefault();
+            if (bllUser == null)
+            {
+                return null;
+            }
+            else
+            {
+                bllUser.Email = user.Email;
+                bllUser.Name = user.Name;
+                if (!String.IsNullOrEmpty(user.Password))
+                    bllUser.Password = user.Password;
+                BllUser oldUser = userService.Update(bllUser);
+                return oldUser == null ? null : ToMembershipUser(oldUser);
+
+                //return GetUser(user.Email, false);
+            }
+        }
+
         public override bool ValidateUser(string email, string password)
         {
             BllUser user = userService.GetByPredicate(u => u.Email == email).FirstOrDefault();

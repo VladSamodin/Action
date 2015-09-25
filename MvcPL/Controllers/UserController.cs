@@ -7,6 +7,7 @@ using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 using MvcPL.Models.User;
 using System.Web.Security;
+using MvcPL.Providers;
 
 namespace MvcPL.Controllers
 {
@@ -33,10 +34,29 @@ namespace MvcPL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserCreateModel userViewModel)
+        public ActionResult Create(UserCreateModel userCreateModel)
         {
-            service.Create(userViewModel.ToBllUser());
-            return RedirectToAction("Index");
+            //service.Create(userViewModel.ToBllUser());
+            //return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                if (service.GetByPredicate(u => u.Email == userCreateModel.Email).FirstOrDefault() != null)
+                {
+                    ModelState.AddModelError("Email", "Email already registered");
+                }
+                else if (((CustomMembershipProvider)Membership.Provider).CreateUser(userCreateModel) == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Registration error");
+                }
+                else
+                {
+                    FormsAuthentication.SetAuthCookie(userCreateModel.Email, false);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(userCreateModel);
         }
 
         //GET-запрос к методу Delete несет потенциальную уязвимость!
@@ -133,5 +153,53 @@ namespace MvcPL.Controllers
            return RedirectToAction("Search", "Lot", new {userId = bllUser.Id});
         }
 
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public ActionResult Private()
+        {
+            BllUser bllUser = service.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+
+            if (bllUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(bllUser.ToUserEditModel());   
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public ActionResult Private(UserEditModel userEditModel)
+        {
+            // name == email????
+            /*
+            BllUser bllUser = service.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+
+            if (bllUser == null)
+            {
+                return HttpNotFound();
+            }
+            return HttpNotFound();
+
+            */
+            if (ModelState.IsValid)
+            {
+                if (service.GetByPredicate(u => u.Email == userEditModel.Email).FirstOrDefault() != null && userEditModel.Email != User.Identity.Name)
+                {
+                    ModelState.AddModelError("Email", "Email already registered");
+                }
+                else if (((CustomMembershipProvider)Membership.Provider).UpdateUserData(userEditModel, User.Identity.Name) == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Update error");
+                }
+                else
+                {
+                    FormsAuthentication.SetAuthCookie(userEditModel.Email, false);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(userEditModel);
+            
+        }
     }
 }

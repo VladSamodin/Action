@@ -33,10 +33,12 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllBid bllBid)
+        public BllBid Update(BllBid bllBid)
         {
-            bidRepository.Update(bllBid.ToDalBid());
+            DalBid oldBid = bidRepository.Update(bllBid.ToDalBid());
+            //bidRepository.Update(bllBid.ToDalBid());
             uow.Commit();
+            return oldBid == null ? null : oldBid.ToBll();
         }
 
         public int Count()

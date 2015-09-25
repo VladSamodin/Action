@@ -35,10 +35,11 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllRole bllRole)
+        public BllRole Update(BllRole bllRole)
         {
-            roleRepository.Update(bllRole.ToDalRole());
+            DalRole oldUser = roleRepository.Update(bllRole.ToDalRole());
             uow.Commit();
+            return oldUser == null ? null : oldUser.ToBll();
         }
 
         public int Count()

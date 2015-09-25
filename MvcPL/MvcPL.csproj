@@ -165,6 +165,7 @@
     <Compile Include="Models\Lot\LotEditModel.cs" />
     <Compile Include="Models\Lot\LotViewModel.cs" />
     <Compile Include="Models\User\UserCreateModel.cs" />
+    <Compile Include="Models\User\UserEditModel.cs" />
     <Compile Include="Models\User\UserLoginModel.cs" />
     <Compile Include="Models\User\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -271,7 +272,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout222.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
@@ -288,6 +288,7 @@
     <Content Include="Views\Lot\Edit.cshtml" />
     <Content Include="Views\Bid\Index.cshtml" />
     <Content Include="Views\Bid\_List.cshtml" />
+    <Content Include="Views\User\Private.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

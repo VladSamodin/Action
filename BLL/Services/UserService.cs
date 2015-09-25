@@ -34,10 +34,11 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllUser bllUser)
+        public BllUser Update(BllUser bllUser)
         {
-            userRepository.Update(bllUser.ToDalUser());
+            DalUser oldUser = userRepository.Update(bllUser.ToDalUser());
             uow.Commit();
+            return oldUser == null ? null : oldUser.ToBll();
         }
 
         public int Count()

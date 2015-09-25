@@ -25,10 +25,6 @@
             @Html.DisplayFor(model => model.Email)
         </p>
         <p>
-            @Html.LabelFor(model => model.Role):
-            @Html.DisplayFor(model => model.Role)
-        </p>
-        <p>
             @Html.ActionLink("Lots", "Search", "Lot", new { userId = Model.Id }, null)
         </p>
 

@@ -33,10 +33,11 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllModerationStatus bllModerationStatus)
+        public BllModerationStatus Update(BllModerationStatus bllModerationStatus)
         {
-            moderationStatusRepository.Update(bllModerationStatus.ToDalModerationStatus());
+            DalModerationStatus oldModerationStatus = moderationStatusRepository.Update(bllModerationStatus.ToDalModerationStatus());
             uow.Commit();
+            return oldModerationStatus == null ? null : oldModerationStatus.ToBll();
         }
 
         public int Count()

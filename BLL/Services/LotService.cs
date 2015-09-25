@@ -41,10 +41,11 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllLot bllLot)
+        public BllLot Update(BllLot bllLot)
         {
-            lotRepository.Update(bllLot.ToDalLot());
+            DalLot oldLot = lotRepository.Update(bllLot.ToDalLot());
             uow.Commit();
+            return oldLot == null ? null : oldLot.ToBll();
         }
 
         public int Count()

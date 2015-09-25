@@ -33,10 +33,12 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(BllCategory bllCategory)
+        public BllCategory Update(BllCategory bllCategory)
         {
-            categoryRepository.Update(bllCategory.ToDalCategory());
+            DalCategory oldCategory = categoryRepository.Create(bllCategory.ToDalCategory());
+            //categoryRepository.Update(bllCategory.ToDalCategory());
             uow.Commit();
+            return oldCategory == null ? null : oldCategory.ToBll();
         }
 
         public int Count()

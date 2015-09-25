@@ -9,7 +9,7 @@ namespace BLL.Interface.Services
     {
         TEntity Create(TEntity e);
         void Delete(TEntity e);
-        void Update(TEntity e);
+        TEntity Update(TEntity e);
         int Count();
         int Count(Expression<Func<TEntity, bool>> expression);
         IEnumerable<TEntity> GetAll();

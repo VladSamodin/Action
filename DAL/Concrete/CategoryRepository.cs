@@ -37,15 +37,18 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalCategory dalCategory)
+        public DalCategory Update(DalCategory dalCategory)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             Category ormCategory = context.Set<Category>().SingleOrDefault(u => u.Id == dalCategory.Id);
             if (ormCategory != null)
             {
+                DalCategory oldCategory = ormCategory.ToDalCategory();
                 ormCategory.Name = dalCategory.Name;
                 context.Entry<Category>(ormCategory).State = EntityState.Modified;
+                return oldCategory;
             }
+            return null;
         }
 
         public int Count()

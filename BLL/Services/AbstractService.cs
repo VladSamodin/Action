@@ -13,8 +13,8 @@ using ExpressionTransformer;
 namespace BLL.Services
 {
     public abstract class AbstractService<TBll, TDal> : IService<TBll> 
-        where TBll : BLL.Interface.Entities.IEntity 
-        where TDal : DAL.Interface.DTO.IEntity
+        where TBll : class, BLL.Interface.Entities.IEntity 
+        where TDal : class, DAL.Interface.DTO.IEntity
     {
         protected readonly IUnitOfWork uow;
         protected readonly IRepository<TDal> repository;
@@ -39,10 +39,11 @@ namespace BLL.Services
             uow.Commit();
         }
 
-        public void Update(TBll bllEntity)
+        public TBll Update(TBll bllEntity)
         {
-            repository.Update((TDal)bllEntity.ToDal());
+            TDal oldEntity = repository.Update((TDal)bllEntity.ToDal());
             uow.Commit();
+            return oldEntity == null ? null : (TBll)(oldEntity.ToBll());
         }
 
         public int Count()

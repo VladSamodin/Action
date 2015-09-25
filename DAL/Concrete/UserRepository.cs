@@ -39,17 +39,20 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalUser dalUser)
+        public DalUser Update(DalUser dalUser)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             User ormUser = context.Set<User>().SingleOrDefault(u => u.Id == dalUser.Id);
             if (ormUser != null)
             {
+                DalUser oldUser = ormUser.ToDalUser();
                 ormUser.Name = dalUser.Name;
                 ormUser.Email = dalUser.Email;
                 ormUser.Password = dalUser.Password;
                 context.Entry<User>(ormUser).State = EntityState.Modified;
+                return dalUser;
             }
+            return null;
         }
 
         public int Count()

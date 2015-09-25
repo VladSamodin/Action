@@ -30,7 +30,7 @@ else
                 @Html.DisplayFor(modelItem => item.DateTime)
             </td>
             <td>
-                @Html.ActionLink(item.Lot.Name, "Details", "Item", new { id = item.Lot.Id }, null)
+                @Html.ActionLink(item.Lot.Name, "Details", "Lot", new { id = item.Lot.Id }, null)
             </td>
             <td>
                 @Html.ActionLink(item.User.Name, "Details", "User", new { id = item.User.Id }, null)

@@ -5,7 +5,7 @@
 @model UserCreateModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Registration";
 }
 
 @using (Html.BeginForm())
@@ -14,7 +14,7 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Create user</legend>
+        <legend>Registration</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Name)
@@ -29,6 +29,7 @@
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
         </div>
 
         <div class="editor-label">
@@ -57,10 +58,6 @@
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to user's list", "Index")
-</div>
 
 @section Scripts
 {

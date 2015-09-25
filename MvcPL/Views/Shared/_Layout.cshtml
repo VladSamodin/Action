@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link type="text/css" rel="stylesheet" href="~/Content/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/Content/bootstrap/3.3.2/css/bootstrap-theme.min.css" />
+    
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -11,24 +14,23 @@
 
     <div id="container" class="minWidth">
         <header>
-            <div class="top-panel__logo">
-                <span class="top-panel__logo__item">My Auction</span>
+            <div class="logo">
+                <span>My Auction</span>
             </div>
             
-                @using (Html.BeginForm("Search", "Lot", FormMethod.Get, new { id = "search-top", Class = "top-panel__search", name="search_top" }))
-                {
-                    @Html.TextBox("searchString", "",new { Class = "search-string", maxlength = "255", placeholder = "Введите название лота"});
-                    <input class="top-panel__search__btn" type="submit" value="Найти" />
-                }
+            @using (Html.BeginForm("Search", "Lot", FormMethod.Get, new { id = "search-top", @class = "search_form", name = "search_form" }))
+            {
+                @Html.TextBox("searchString", "",new { Class = "search-string", maxlength = "255", placeholder = "Введите название лота"});
+                <input class="search_button" type="submit" value="Найти" />
+            }
         </header>
         
-        <main id="middle-content" class="middle cfix">
+        <main id="middle-content" >
             <div id="mn-layout__inner" class="mn-layout__inner">
                 <nav class="mn-layout__col-1">
                     @Html.Partial("_Menu")
                 </nav>
                 <div class="mn-layout__col-2">
-                    Right col
                     @RenderBody()
                 </div>
             </div>
@@ -37,7 +39,7 @@
     </div>
     
     
-    <footer class="minWidth">
+    <footer>
         <span>My Auction &copy; 2015</span>
     </footer>
         

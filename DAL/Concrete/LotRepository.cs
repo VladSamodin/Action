@@ -36,12 +36,13 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalLot dalLot)
+        public DalLot Update(DalLot dalLot)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             Lot ormLot = context.Set<Lot>().SingleOrDefault(u => u.Id == dalLot.Id);
             if (ormLot != null)
             {
+                DalLot oldLot = ormLot.ToDalLot();
                 ormLot.Name               = dalLot.Name;
                 ormLot.Description        = dalLot.Description;
                 ormLot.OwnerId            = dalLot.OwnerId;
@@ -59,7 +60,10 @@ namespace DAL.Concrete
                 ormLot.ModeratorMessage   = dalLot.ModeratorMessage;
                 
                 context.Entry<Lot>(ormLot).State = EntityState.Modified;
+
+                return oldLot;
             }
+            return null;
         }
 
         public int Count()

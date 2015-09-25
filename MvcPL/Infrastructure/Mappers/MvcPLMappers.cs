@@ -31,6 +31,15 @@ namespace MvcPL.Infrastructure.Mappers
             };
         }
 
+        public static UserEditModel ToUserEditModel(this BllUser user)
+        {
+            return new UserEditModel()
+            {
+                Name = user.Name,
+                Email = user.Email
+            };
+        }
+
         public static BllUser ToBllUser(this UserCreateModel userCreateModel)
         {
             return new BllUser()

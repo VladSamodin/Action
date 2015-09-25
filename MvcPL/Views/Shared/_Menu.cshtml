@@ -1,50 +1,30 @@
-﻿<p>Меню</p>
-<ul class="navigation">
-    <li>@Html.ActionLink("Домашняя", "Index", "Home", null, new { @class = "btn btn-default btn-sm" })</li>
+﻿<div class="list-group">
+    <h4 class="menu_title">Меню</h4>
+    @Html.ActionLink("Домашняя", "Index", "Home", null, new { @class = "list-group-item" })
     @if (HttpContext.Current.User.Identity.IsAuthenticated)
     {
-        
         if (HttpContext.Current.User.IsInRole("Moderator"))
         {
-            <li>@Html.ActionLink("Не модерированные лоты", "Index", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>
-            <li>@Html.ActionLink("Недавно модерированные", "Index", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>
+            @Html.ActionLink("Не модерированные лоты", "Index", "Lot", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Недавно модерированные", "Index", "Lot", null, new { @class = "list-group-item" })
         }
         if (HttpContext.Current.User.IsInRole("User"))            
         {
-            <!--<li>@Html.ActionLink("Личные данные", "Index", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>-->
-            <li>@Html.ActionLink("Мои лоты", "Owner", "Lot", null, new { @class = "btn btn-default btn-sm" })</li>
-            <li>@Html.ActionLink("Мои ставки", "My", "Bid", null, new { @class = "btn btn-default btn-sm" })</li>
+            @Html.ActionLink("Личные данные", "Private", "User", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Мои лоты", "Owner", "Lot", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Мои ставки", "My", "Bid", null, new { @class = "list-group-item" })
         }
         if (HttpContext.Current.User.IsInRole("Administrator"))
         {
-            <li>@Html.ActionLink("Пользователи", "Index", "User", null, new { @class = "btn btn-default btn-sm" })</li>
+            @Html.ActionLink("Пользователи", "Index", "User", null, new { @class = "list-group-item" })
         }
-        <li>@Html.ActionLink("Выйти", "Logout", "User", null, new { @class = "btn btn-default btn-sm" })</li>
+        @Html.ActionLink("Выйти", "Logout", "User", null, new { @class = "list-group-item" })
     }
     else
     {
-        <li>@Html.ActionLink("Войти", "Login", "User", null, new { @class = "btn btn-default btn-sm" })</li>
-        <li>@Html.ActionLink("Регистрация", "Create", "User", null, new { @class = "btn btn-default btn-sm" })</li>
+        @Html.ActionLink("Войти", "Login", "User", null, new { @class = "list-group-item" })
+        @Html.ActionLink("Регистрация", "Create", "User", null, new { @class = "list-group-item" })
     }
-    <p>Категории</p>
-    <li>
-        @Html.Action("ShowCategories", "Category")
-    </li>
-
-<!-- Перенести в Мои лоты
-@if (HttpContext.Current.User.IsInRole("User"))
-    {
-        <li>
-            <a class="btn btn-default btn-sm" href="#">Create</a>
-            <ul>
-                @if (HttpContext.Current.User.IsInRole("Administrator"))
-                {
-                    <li>@Html.ActionLink("Category", "Create", "Category", null, new { @class = "btn btn-default btn-sm" })</li>
-                }
-                <li>@Html.ActionLink("Item", "Create", "Item", null, new { @class = "btn btn-default btn-sm" })</li>
-            </ul>
-        </li>
-    }
-   -->
-</ul>
-    
+    <h4 class="menu_title">Категории</h4>
+    @Html.Action("ShowCategories", "Category")
+</div> 

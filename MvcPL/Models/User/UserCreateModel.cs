@@ -29,7 +29,7 @@ namespace MvcPL.Models.User
         public string Password { get; set; }
 
         [Required]
-        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string ConfirmPassword { get; set; }

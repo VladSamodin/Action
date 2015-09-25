@@ -37,15 +37,18 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalModerationStatus dalModerationStatus)
+        public DalModerationStatus Update(DalModerationStatus dalModerationStatus)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             ModerationStatus ormModerationStatus = context.Set<ModerationStatus>().SingleOrDefault(u => u.Id == dalModerationStatus.Id);
             if (ormModerationStatus != null)
             {
+                DalModerationStatus oldModerationStatus = ormModerationStatus.ToDalModerationStatus();
                 ormModerationStatus.Name = dalModerationStatus.Name;
                 context.Entry<ModerationStatus>(ormModerationStatus).State = EntityState.Modified;
+                return oldModerationStatus;
             }
+            return null;
         }
 
         public int Count()

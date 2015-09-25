@@ -37,17 +37,20 @@ namespace DAL.Concrete
             }
         }
 
-        public void Update(DalRole dalRole)
+        public DalRole Update(DalRole dalRole)
         {
             //User ormUser = context.Set<User>().Where(u => u.Id == dalUser.Id).FirstOrDefault();
             Role ormRole = context.Set<Role>().SingleOrDefault(u => u.Id == dalRole.Id);
             if (ormRole != null)
             {
-
+                DalRole oldRole = ormRole.ToDalRole();
                 ormRole.Name = dalRole.Name;
                 ormRole.Description = dalRole.Description;
                 context.Entry<Role>(ormRole).State = EntityState.Modified;
+
+                return oldRole;
             }
+            return null;
         }
 
         public int Count()
