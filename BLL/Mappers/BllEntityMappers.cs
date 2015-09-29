@@ -68,7 +68,8 @@ namespace BLL.Mappers
 
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                //ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.ToDal(),
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -90,7 +91,8 @@ namespace BLL.Mappers
                 Sold = lot.Sold,
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                //ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.ToBll(),
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -145,7 +147,6 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
 
@@ -157,7 +158,6 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
         #endregion
@@ -237,7 +237,7 @@ namespace BLL.Mappers
 
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.ToDal(),
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -259,7 +259,7 @@ namespace BLL.Mappers
                 Sold = lot.Sold,
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.ToBll(),
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -314,7 +314,6 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
 
@@ -326,7 +325,6 @@ namespace BLL.Mappers
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
         #endregion

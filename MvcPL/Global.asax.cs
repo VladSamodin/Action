@@ -16,7 +16,7 @@ namespace MvcPL
     {
         protected void Application_Start()
         {
-            //DbInitializer.SetThisInitializer();
+            DbInitializer.SetThisInitializer();
 
             AreaRegistration.RegisterAllAreas();
 

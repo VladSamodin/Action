@@ -11,15 +11,15 @@ namespace MvcPL.Providers
 {
     public class CustomMembershipProvider : MembershipProvider
     {
-        /*
+        
         private IService<BllRole> roleService
         {
             get
             {
-                return (IService<BllRole>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IService<BllRole>));
+                return (IService<BllRole>)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
             }
         }
-        */
+        
 
         private IUserService userService
         {
@@ -59,7 +59,13 @@ namespace MvcPL.Providers
             }
             else
             {
-                return ToMembershipUser(userService.Create(user.ToBllUser()));
+                BllUser newUser = userService.Create(user.ToBllUser());
+                if (newUser == null)
+                    return null;
+                newUser = userService.GetByPredicate(u => u.Email == user.Email).First();
+                BllRole userRole = roleService.GetById((int)user.Role);
+                userService.AddRole(newUser, userRole);
+                return ToMembershipUser(newUser);
 
                 //return GetUser(user.Email, false);
             }

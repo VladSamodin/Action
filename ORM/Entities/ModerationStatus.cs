@@ -22,5 +22,21 @@ namespace ORM.Entities
         public string Name { get; set; }
 
         public virtual ICollection<Lot> Lots { get; set; }
+        /*
+        public static bool operator ==(ModerationStatus lhs, ModerationStatus rhs)
+        {
+            if (ReferenceEquals(lhs, rhs))
+                return true;
+            if (Equals(lhs, null) || Equals(rhs, null))
+                return false;
+            return lhs.Id == rhs.Id && lhs.Name == rhs.Name;
+        }
+
+        public static bool operator !=(ModerationStatus lhs, ModerationStatus rhs)
+        {
+            return !(lhs == rhs);
+        }
+        */
     }
+
 }

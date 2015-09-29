@@ -28,5 +28,10 @@ namespace MvcPL.Models.Lot
         public CategoryViewModel Category { get; set; }
 
         public int OwnerId { get; set; }
+
+        //public ModerationStatus ModerationStatus { get; set; }
+        public String ModerationStatus { get; set; }
+
+        public String ModerationMessage { get; set; }
     }
 }

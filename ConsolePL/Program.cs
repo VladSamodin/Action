@@ -21,12 +21,14 @@ namespace ConsolePL
 
         static void Main(string[] args)
         {
+            /*
             var service = resolver.Get<IUserService>();
             var list = service.GetAllUserEntities().ToList();
             foreach (var user in list)
             {
                 Console.WriteLine(user.Name);
             }
+             * */
         }
     }
 }

@@ -32,7 +32,7 @@ namespace BLL.Services
         public void Delete(BllLot bllLot)
         {
             //Проверка на существование?
-            IEnumerable<BllBid> bids = bidService.GetByPredicate(b => b.LotId == bllLot.Id);
+            IEnumerable<BllBid> bids = bidService.GetByPredicate(b => b.LotId == bllLot.Id).ToList();
             foreach (var bid in bids)
             {
                 bidService.Delete(bid);
@@ -94,6 +94,14 @@ namespace BLL.Services
             }
 
             return lot;
+        }
+
+
+        public IEnumerable<BllLot> GetUnmoderatedLots()
+        {
+            // переписать константу
+            //return lotRepository.GetByPredicate(l => l.ModerationStatus.Id == 1).Select(l => l.ToBll());
+            return lotRepository.GetAll().Where(l => l.ModerationStatus.Id == 1).Select(l => setCurrentPrice(l.ToBll()));
         }
     }
 }

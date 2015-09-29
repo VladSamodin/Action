@@ -41,10 +41,12 @@ namespace DbInitializers
 
             context.Users.Add(new User
             {
-                Name = "moderator",
-                Email = "mod@mod.com",
+                Name = "default moderator",
+                Email = "d_mod@d_mod.com",
                 Password = "12345",
             }).Roles.Add(roleModerator);
+
+            
 
             context.Users.Add(new User
             {
@@ -66,6 +68,13 @@ namespace DbInitializers
                 Email = "user3@user3.com",
                 Password = "12345",
             }).Roles.Add(roleUser);
+
+            context.Users.Add(new User
+            {
+                Name = "moderator",
+                Email = "mod@mod.com",
+                Password = "12345",
+            }).Roles.Add(roleModerator);
             
             
             context.Categories.Add(new Category

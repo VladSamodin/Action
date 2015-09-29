@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MvcPL.Models.Category.CategoryViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+
+    <div id="loadingElement" style="display: none">
+        Please wait
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        <tbody id="list">
+            @Html.Partial("_List", Model)
+        </tbody>
+
+    </table>
+
+    @Html.ActionLink("Add", "Create")
+
+</div>

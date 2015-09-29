@@ -5,18 +5,19 @@
     {
         if (HttpContext.Current.User.IsInRole("Moderator"))
         {
-            @Html.ActionLink("Не модерированные лоты", "Index", "Lot", null, new { @class = "list-group-item" })
-            @Html.ActionLink("Недавно модерированные", "Index", "Lot", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Не модерированные лоты", "Unmoderated", "Lot", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Недавно модерированные", "RecentlyModerated", "Lot", null, new { @class = "list-group-item" })
         }
         if (HttpContext.Current.User.IsInRole("User"))            
         {
             @Html.ActionLink("Личные данные", "Private", "User", null, new { @class = "list-group-item" })
-            @Html.ActionLink("Мои лоты", "Owner", "Lot", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Мои лоты", "My", "Lot", null, new { @class = "list-group-item" })
             @Html.ActionLink("Мои ставки", "My", "Bid", null, new { @class = "list-group-item" })
         }
         if (HttpContext.Current.User.IsInRole("Administrator"))
         {
             @Html.ActionLink("Пользователи", "Index", "User", null, new { @class = "list-group-item" })
+            @Html.ActionLink("Категории", "Index", "Category", null, new { @class = "list-group-item" })
         }
         @Html.ActionLink("Выйти", "Logout", "User", null, new { @class = "list-group-item" })
     }

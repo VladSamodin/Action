@@ -33,7 +33,8 @@ namespace DAL.Interface.DTO
 
         public int ModeratorId { get; set; }
 
-        public int ModerationStatusId { get; set; }
+        //public int ModerationStatusId { get; set; }
+        public DalModerationStatus ModerationStatus { get; set; }
 
         public DateTime ModerationDateTime { get; set; }
 

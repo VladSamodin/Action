@@ -125,7 +125,10 @@ namespace MvcPL.Infrastructure.Mappers
                 CurrentPrice = lot.CurrentPrice,
                 FinishDateTime = lot.FinishDateTime,
                 Image = lot.Image,
-                OwnerId = lot.OwnerId
+                OwnerId = lot.OwnerId,
+                //ModerationStatus = (ModerationStatus)lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.Name,
+                ModerationMessage = lot.ModeratorMessage
             };
         }
     }

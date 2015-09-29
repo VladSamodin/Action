@@ -1,6 +1,7 @@
-﻿@model IEnumerable<MvcPL.Models.Lot.LotViewModel>
+﻿@using MvcPL.Pagination;
+@model MvcPL.Pagination.PaginationList<MvcPL.Models.Lot.LotViewModel>
 
-@if (Model.Count() == 0)
+@if (Model.Items.Count() == 0)
 {
     <tr>
         <td colspan="7">
@@ -10,7 +11,7 @@
 }
 else
 {
-    foreach (var lot in Model)
+    foreach (var lot in Model.Items)
     {
         <tr>
             <td>
@@ -19,7 +20,7 @@ else
             <td>
                 @if (lot.Image == null)
                 {
-                    <img class="image_min" src="~/Content/NoImage.svg">
+                    <img class="image_min" src="~/Content/img/NoImage100px.png">
                 }
                 else
                 {
@@ -29,13 +30,13 @@ else
                 @Html.DisplayFor(modelLot => lot.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelLot => lot.Description)
-            </td>
-            <td>
                 @Html.DisplayFor(modelLot => lot.CurrentPrice)$
             </td>
             <td>
                 @Html.DisplayFor(modelLot => lot.FinishDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelLot => lot.ModerationStatus)
             </td>
             <td>
                 @if (HttpContext.Current.User.IsInRole("Administrator"))
@@ -55,4 +56,10 @@ else
             </td>
         </tr>
     }
+    <tr>
+        <td colspan="7" class="pagination-centered">
+            @*Html.PageLinks((PageInfo)ViewBag.PageInfo, x => Url.Action("Index", new { page = x}), "list")*@
+            @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x}), "list")
+        </td>
+    </tr>
 }

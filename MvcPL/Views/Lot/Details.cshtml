@@ -10,7 +10,7 @@
     <h2>@Html.DisplayFor(model => model.Name)</h2>
     @if (Model.Image == null)
     {
-        <img class="image_max" src="~/Content/NoImage.svg">
+        <img class="image_max" src="~/Content/img/NoImage300px.png">
     }
     else
     {
@@ -19,21 +19,24 @@
     <div>
         @Html.DisplayNameFor(model => model.CurrentPrice) : @Html.DisplayFor(model => model.CurrentPrice) 
         <br />
-        @if (!ViewBag.OwnerView)
-        {
-            using (Html.BeginForm("Create", "Bid", new { id = Model.Id }, FormMethod.Post))
+        @if (User.IsInRole("User")) 
+        { 
+            if (!ViewBag.OwnerView)
             {
-               @:Your bid in $ :
-               @Html.TextBox("newBid") 
-                //@Html.ValidateFor()
-               <input type="submit" value="Make bid" />
-            }
+                using (Html.BeginForm("Create", "Bid", new { id = Model.Id }, FormMethod.Post))
+                {
+                   @:Your bid in $ :
+                   @Html.TextBox("newBid") 
+                    //@Html.ValidateFor()
+                   <input type="submit" value="Make bid" />
+                }
             
-        }
-        else
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id})
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Id})
+            }
+            else
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id})
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id})
+            }
         }
         <br />
         @Html.ActionLink("Bids", "Lot", "Bid", new { lotId = Model.Id }, null)
@@ -55,5 +58,19 @@
             </td>
         </tr>
     </table>
+    @if (User.IsInRole("Moderator"))
+    {
+        @:Статус: @Html.DisplayFor(model => model.ModerationStatus)
+        <br />
+        using (Html.BeginForm("SetModerationStatus", "Lot", new { id = Model.Id, moderationStatusId = (int)MvcPL.Models.Lot.ModerationStatus.Invalid }, FormMethod.Post))
+                {
+                   <input type="submit" value="Нарушение" />
+                   @:Сообщение:
+                   @Html.TextBox("moderatorMessage") 
+                }
+        <br />
+        @Html.ActionLink("Проверенно", "SetModerationStatus", new { id = Model.Id, moderationStatusId = (int)MvcPL.Models.Lot.ModerationStatus.Checked })
+               
+    }
 </div>
 

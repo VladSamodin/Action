@@ -35,7 +35,8 @@ namespace BLL.Interface.Entities
 
         public int ModeratorId { get; set; }
 
-        public int ModerationStatusId { get; set; }
+        //public int ModerationStatusId { get; set; }
+        public BllModerationStatus ModerationStatus { get; set; }
 
         public DateTime ModerationDateTime { get; set; }
 

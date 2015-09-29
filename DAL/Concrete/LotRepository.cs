@@ -55,7 +55,7 @@ namespace DAL.Concrete
                 ormLot.CategoryId         = dalLot.CategoryId;
                 ormLot.Image              = dalLot.Image;
                 ormLot.ModeratorId        = dalLot.ModeratorId;
-                ormLot.ModerationStatusId = dalLot.ModerationStatusId;
+                ormLot.ModerationStatusId = dalLot.ModerationStatus.Id;
                 ormLot.ModerationDateTime = dalLot.ModerationDateTime;
                 ormLot.ModeratorMessage   = dalLot.ModeratorMessage;
                 

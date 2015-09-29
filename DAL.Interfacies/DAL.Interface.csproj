@@ -47,6 +47,7 @@
     <Compile Include="DTO\DalUser.cs" />
     <Compile Include="DTO\IEntity.cs" />
     <Compile Include="DTO\DalModerationStatus.cs" />
+    <Compile Include="Repository\ILotRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Repository\IRoleRepository.cs" />

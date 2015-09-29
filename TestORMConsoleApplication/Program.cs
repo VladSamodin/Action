@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ORM;
+using ORM.Entities;
 
 namespace TestORMConsoleApplication
 {
@@ -12,13 +14,12 @@ namespace TestORMConsoleApplication
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.FullName);
             //AppDomain.CurrentDomain.SetData("DataDirectory", System.IO.Directory.GetParent(System.IO.Directory.GetParent(System.IO.Directory.GetCurrentDirectory())));
-            ORM.EntityModel em = new ORM.EntityModel();
-            em.Users.Add(new ORM.Entities.User
+            ORM.EntityModel em = new ORM.EntityModel("name=EntityModel");
+            ORM.Entities.User user = em.Set<User>().Add(new ORM.Entities.User
             {
-                Name = "123123",
-                Password = "123123",
+                Name = "test",
+                Password = "12345",
                 Email = "sdfsdf@sfsf.com",
-                //Role = new ORM.Entities.Role { Name = "user" },
             });
             /*
             em.Lots.Add(new ORM.Entities.Lot
@@ -34,7 +35,8 @@ namespace TestORMConsoleApplication
                 
             });
             */
-            int a;
+            int a = 1;
+            a += a;
         }
     }
 }

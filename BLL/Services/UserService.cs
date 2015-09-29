@@ -72,12 +72,14 @@ namespace BLL.Services
             DalUser dalUser = userRepository.GetById(bllUser.Id);
             //??????????????????????????????????????????????????
             userRepository.AddRole(dalUser, bllRole.ToDal());
+            uow.Commit();
         }
 
         public void RemoveRole(BllUser bllUser, BllRole bllRole)
         {
             DalUser dalUser = userRepository.GetById(bllUser.Id);
             userRepository.RemoveRole(dalUser, bllRole.ToDal());
+            uow.Commit();
         }
 
         public IEnumerable<BllRole> GetRoles(BllUser bllUser)

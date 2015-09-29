@@ -68,7 +68,7 @@ namespace DAL
 
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatusId = lot.ModerationStatus.Id,
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -90,7 +90,8 @@ namespace DAL
                 Sold = lot.Sold,
                 ModeratorId = lot.ModeratorId,
                 ModerationDateTime = lot.ModerationDateTime,
-                ModerationStatusId = lot.ModerationStatusId,
+                //ModerationStatusId = lot.ModerationStatusId,
+                ModerationStatus = lot.ModerationStatus.ToDalModerationStatus(),
                 ModeratorMessage = lot.ModeratorMessage
             };
         }
@@ -145,7 +146,6 @@ namespace DAL
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
 
@@ -157,7 +157,6 @@ namespace DAL
                 Name = user.Name,
                 Email = user.Email,
                 Password = user.Password,
-                //RoleId = user.RoleId
             };
         }
         #endregion

@@ -4,7 +4,7 @@
 
 <h2>Index</h2>
 
-@model IEnumerable<MvcPL.Models.Lot.LotViewModel>
+@model MvcPL.Pagination.PaginationList<MvcPL.Models.Lot.LotViewModel>
 
 @section scripts
 {
@@ -25,13 +25,13 @@
                 Name
             </th>
             <th>
-                Description
-            </th>
-            <th>
                 Current price
             </th>
             <th>
                 Finish at
+            </th>
+            <th>
+                Moderations status
             </th>
             <th>
                 Actions

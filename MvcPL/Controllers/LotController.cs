@@ -3,6 +3,7 @@ using BLL.Interface.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models.Bid;
 using MvcPL.Models.Lot;
+using MvcPL.Pagination;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,8 @@ namespace MvcPL.Controllers
 {
     public class LotController : Controller
     {
+        private const int PageSize = 1;
+
         private IService<BllBid> bidService;
         private ILotService lotService;
         private IService<BllModerationStatus> moderationStatusService;
@@ -49,24 +52,34 @@ namespace MvcPL.Controllers
         }
         */
         
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.UserId = GetCurrntUserId();
 
             IEnumerable<LotViewModel> viewItems = lotService
                 .GetByPredicate( (l) => l.FinishDateTime > DateTime.Now  )
+                
                 .Select(l => l.ToLotViewModel());
+            // Переделать TotalItems
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = LotController.PageSize, TotalItems = viewItems.Count() };
+            ViewBag.PageInfo = pageInfo;
+
+            viewItems = viewItems
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize);
+
 
             if (HttpContext.Request.IsAjaxRequest())
             {
-                return PartialView("_List", viewItems);
+                return PartialView("_List", viewItems.ToPaginationList(pageInfo));
             }
             else
             {
-                return View(viewItems);
+                return View(viewItems.ToPaginationList(pageInfo));
             }
         }
 
+        /*
         [Authorize(Roles = "User")]
         public ActionResult Owner()
         {
@@ -92,16 +105,21 @@ namespace MvcPL.Controllers
                 return View("Index", viewItems);
             }
         }
+        */
 
-        /*
-        public ActionResult Search(string searchString, int? categoryId)
+        public ActionResult Search(string searchString, int? userId, int? categoryId)
         {
+            return search(searchString, userId, categoryId);
+        }
+
+        [Authorize(Roles = "User")]
+        public ActionResult My()
+        {
+            int userId = GetCurrntUserId();
+            ViewBag.UserId = userId;
+
             IEnumerable<LotViewModel> viewItems = lotService
-                .GetByPredicate(l =>
-                    // Contains
-                    (searchString == null || searchString != null && l.Name.Contains(searchString)) 
-                    && (!categoryId.HasValue || categoryId.HasValue && l.CategoryId == categoryId) 
-                    && l.FinishDateTime > DateTime.Now)
+                .GetByPredicate(l => l.OwnerId == userId)
                 .Select(l => l.ToLotViewModel());
 
             if (HttpContext.Request.IsAjaxRequest())
@@ -110,26 +128,25 @@ namespace MvcPL.Controllers
             }
             else
             {
-                return View(viewItems);
+                return View("Index", viewItems);
             }
-        }
-        */
-
-        public ActionResult Search(string searchString, int? userId, int? categoryId)
-        {
-            return search(searchString, userId, categoryId);
         }
 
         private ActionResult search(string searchString = null, int? userId = null, int? categoryId = null)
         {
             ViewBag.UserId = GetCurrntUserId();
 
+            BllModerationStatus moderationStatus = moderationStatusService.GetByPredicate(ms => ms.Name == "Проверен").FirstOrDefault();
+            if (moderationStatus == null)
+                return HttpNotFound();
             IEnumerable<LotViewModel> viewItems = lotService
                 .GetByPredicate(l =>
                        (searchString == null || searchString != null && l.Name.Contains(searchString))
                     && (!userId.HasValue     || userId.HasValue      && l.OwnerId == userId)
                     && (!categoryId.HasValue || categoryId.HasValue  && l.CategoryId == categoryId)
                     && l.FinishDateTime > DateTime.Now)
+                // убрать Where
+                .Where(l => l.ModerationStatus.Id == moderationStatus.Id)
                 .Select(l => l.ToLotViewModel());
 
             if (HttpContext.Request.IsAjaxRequest())
@@ -185,17 +202,22 @@ namespace MvcPL.Controllers
                     bllLot.Sold = false;
                     bllLot.OwnerId = bllUser.Id;
 
-                    byte[] imageData = null;
                     if (uploadImage != null)
                     {
+                        byte[] imageData = null;
                         using (var binaryReader = new BinaryReader(uploadImage.InputStream))
                         {
                             imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
                         }
+                        bllLot.Image = imageData;
                     }
 
                     // убрать пкркчисление
-                    bllLot.ModerationStatusId = (int)ModerationStatus.Unchecked;
+                    //bllLot.ModerationStatusId = (int)ModerationStatus.Unchecked;
+                    BllModerationStatus moderationStatus = moderationStatusService.GetByPredicate(ms => ms.Name == "Не проверен").FirstOrDefault();
+                    if (moderationStatus == null)
+                        HttpNotFound();
+                    bllLot.ModerationStatus = moderationStatus;
                     bllLot.ModeratorId = 2;
 
                     lotService.Create(bllLot);
@@ -274,7 +296,12 @@ namespace MvcPL.Controllers
                         bllLot.Image = imageData;
                     }
 
+                    BllModerationStatus moderationStatus = moderationStatusService.GetByPredicate(ms => ms.Name == "Не проверен").FirstOrDefault();
+                    if (moderationStatusService == null)
+                        return HttpNotFound();
+                    bllLot.ModerationStatus = moderationStatus;
                     lotService.Update(bllLot);
+
                     return RedirectToAction("Details", new { id = lot.Id });
                 }
             }
@@ -302,6 +329,79 @@ namespace MvcPL.Controllers
             }
             lotService.Delete(bllLot);
             return new EmptyResult();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Moderator")]
+        public ActionResult Unmoderated()
+        {
+            BllUser bllUser = userService.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+            if (bllUser == null)
+            {
+                return HttpNotFound();
+            }
+
+            BllModerationStatus moderationStatus = moderationStatusService.GetByPredicate(ms => ms.Name == "Не проверен").FirstOrDefault();
+            if (moderationStatus == null)
+            {
+                return HttpNotFound();
+            }
+
+            IEnumerable<LotViewModel> unmoderatedLots = lotService
+                //.GetByPredicate(l => l.ModerationStatus.Name == moderationStatus.Name)
+                .GetUnmoderatedLots()
+                .Select(l => l.ToLotViewModel());
+
+            return View("Index", unmoderatedLots);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Moderator")]
+        public ActionResult RecentlyModerated()
+        {
+            BllUser bllUser = userService.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+            if (bllUser == null)
+            {
+                return HttpNotFound();
+            }
+
+            IEnumerable<LotViewModel> recentlyModeratedLots = lotService
+                .GetByPredicate(l => l.ModeratorId == bllUser.Id).OrderBy(l => l.ModerationDateTime)
+                .Select(l => l.ToLotViewModel());
+
+            return View("Index", recentlyModeratedLots);
+        }
+
+        [Authorize(Roles = "Moderator")]
+        public ActionResult SetModerationStatus(int id, int moderationStatusId, string moderatorMessage)
+        {
+            BllUser moderator = userService.GetByPredicate(u => u.Email == User.Identity.Name).FirstOrDefault();
+            if (moderator == null)
+            {
+                return HttpNotFound();
+            }
+
+            BllLot lot = lotService.GetById(id);
+            if (lot == null)
+                return HttpNotFound();
+
+            BllModerationStatus moderationStatus = moderationStatusService.GetById(moderationStatusId);
+            if (moderationStatus == null)
+                return HttpNotFound();
+
+            if (moderationStatus.Id == (int)ModerationStatus.Invalid && String.IsNullOrWhiteSpace(moderatorMessage))
+            {
+                return HttpNotFound();
+            }
+
+            lot.ModeratorId = moderator.Id;
+            //lot.ModerationStatusId = moderationStatus.Id;
+            lot.ModerationStatus = moderationStatus;
+            lot.ModerationDateTime = DateTime.Now;
+            lot.ModeratorMessage = moderatorMessage;
+
+            lotService.Update(lot);
+            return RedirectToAction("RecentlyModerated");
         }
 
         private bool IsImage(HttpPostedFileBase file)

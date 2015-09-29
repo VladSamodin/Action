@@ -21,6 +21,7 @@ namespace MvcPL.Controllers
         }
 
         [ActionName("Index")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult GetAllUsers()
         {
             return View(service.GetAll().Select(user => user.ToMvcUser()));
@@ -116,6 +117,7 @@ namespace MvcPL.Controllers
             return View(user);
         }
 
+        [Authorize]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();

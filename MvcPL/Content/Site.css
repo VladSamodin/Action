@@ -202,16 +202,18 @@ textarea {
 }
 
 /*------------------------------*/
-.image_min
-{
+.image_min {
     width: 100px;
 }
 
-.image_max
-{
+.image_max {
     border: 1px solid #aba9a8;
     border-radius: 15px;
     float: right;
     padding: 10px;
     width: 300px;
+}
+
+.pagination-centered {
+  text-align: center;
 }

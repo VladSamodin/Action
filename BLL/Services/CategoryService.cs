@@ -35,7 +35,7 @@ namespace BLL.Services
 
         public BllCategory Update(BllCategory bllCategory)
         {
-            DalCategory oldCategory = categoryRepository.Create(bllCategory.ToDalCategory());
+            DalCategory oldCategory = categoryRepository.Update(bllCategory.ToDalCategory());
             //categoryRepository.Update(bllCategory.ToDalCategory());
             uow.Commit();
             return oldCategory == null ? null : oldCategory.ToBll();
