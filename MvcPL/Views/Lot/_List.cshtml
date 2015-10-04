@@ -59,7 +59,7 @@ else
     <tr>
         <td colspan="7" class="pagination-centered">
             @*Html.PageLinks((PageInfo)ViewBag.PageInfo, x => Url.Action("Index", new { page = x}), "list")*@
-            @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x}), "list")
+            @Html.PageLinks(Model.PageInfo, x => Url.Action(this.Context.Request.Url.Segments[0], new { page = x }), "list")
         </td>
     </tr>
 }

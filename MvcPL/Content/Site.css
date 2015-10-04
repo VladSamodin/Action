@@ -209,11 +209,20 @@ textarea {
 .image_max {
     border: 1px solid #aba9a8;
     border-radius: 15px;
-    float: right;
+    
     padding: 10px;
     width: 300px;
 }
 
 .pagination-centered {
   text-align: center;
+}
+
+.category {
+
+}
+
+h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

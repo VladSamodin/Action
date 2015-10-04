@@ -56,17 +56,16 @@ namespace MvcPL.Controllers
         {
             ViewBag.UserId = GetCurrntUserId();
 
-            IEnumerable<LotViewModel> viewItems = lotService
-                .GetByPredicate( (l) => l.FinishDateTime > DateTime.Now  )
-                
-                .Select(l => l.ToLotViewModel());
-            // Переделать TotalItems
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = LotController.PageSize, TotalItems = viewItems.Count() };
-            ViewBag.PageInfo = pageInfo;
+            int itemsCount = lotService.Count(l => l.FinishDateTime > DateTime.Now);
 
-            viewItems = viewItems
+            IEnumerable<LotViewModel> viewItems = lotService
+                .GetByPredicate( l => l.FinishDateTime > DateTime.Now  )
                 .Skip((page - 1) * PageSize)
-                .Take(PageSize);
+                .Take(PageSize)
+                .Select(l => l.ToLotViewModel());
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = LotController.PageSize, TotalItems = itemsCount };
+            ViewBag.PageInfo = pageInfo;
+                
 
 
             if (HttpContext.Request.IsAjaxRequest())

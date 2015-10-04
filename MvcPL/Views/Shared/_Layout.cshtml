@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <div id="container" class="minWidth">
+    <div id="container" class="col-md-8 col-md-offset-2" >
         <header>
             <div class="logo">
                 <span>My Auction</span>
@@ -26,11 +26,11 @@
         </header>
         
         <main id="middle-content" >
-            <div id="mn-layout__inner" class="mn-layout__inner">
-                <nav class="mn-layout__col-1">
+            <div id="mn-layout__inner" class="row">
+                <nav class="col-md-3">
                     @Html.Partial("_Menu")
                 </nav>
-                <div class="mn-layout__col-2">
+                <div class="col-md-9">
                     @RenderBody()
                 </div>
             </div>

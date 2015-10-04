@@ -79,6 +79,7 @@ namespace DAL.Concrete
         public IEnumerable<DalLot> GetAll()
         {
             return context.Set<Lot>().AsEnumerable().Select(ormLot => ormLot.ToDalLot());
+            //context.Set<Lot>().OrderBy(
         }
 
         public DalLot GetById(int id)
@@ -91,5 +92,16 @@ namespace DAL.Concrete
         {
             return context.Set<Lot>().Where(ExpressionTransformer<DalLot, Lot>.Transform(expression)).AsEnumerable().Select(u => u.ToDalLot());
         }
+
+        /*
+        IEnumerable<DalLot> IRepository<DalLot>.GetByPredicate<TKey>(Expression<Func<DalLot, bool>> expression, int skip, int take, Expression<Func<Lot, TKey>> sortKeySeparator = null, bool onIncrease = true)
+        {
+            IQueryable<Lot> lots = context.Set<Lot>().Where(ExpressionTransformer<DalLot, Lot>.Transform(expression));
+            if (sortKeySeparator != null)
+                lots = onIncrease ? lots.OrderBy(sortKeySeparator) : lots.OrderByDescending(sortKeySeparator);
+            return lots.Skip(skip).Take(take).AsEnumerable().Select(l => l.ToDalLot());
+            //return context.Set<Lot>().Where(ExpressionTransformer<DalLot, Lot>.Transform(expression)).AsEnumerable().Select(u => u.ToDalLot());
+        }
+         * */
     }
 }

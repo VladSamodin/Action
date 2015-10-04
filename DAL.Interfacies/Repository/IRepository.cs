@@ -14,5 +14,7 @@ namespace DAL.Interface.Repository
         IEnumerable<TEntity> GetAll();
         TEntity GetById(int key);
         IEnumerable<TEntity> GetByPredicate(Expression<Func<TEntity, bool>> expression);
+
+        //IEnumerable<TEntity> GetByPredicate(Expression<Func<TEntity, bool>> expression, int skip, int take, Func<);
     }
 }

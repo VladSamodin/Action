@@ -5,45 +5,76 @@
 }
 
 
-<div >
-    Category -> @Html.ActionLink(Model.Category.Name, "Search", "Lot", new { categoryId = Model.Category.Id }, null)
+<div  >
+    <span class="category">Category -> @Html.ActionLink(Model.Category.Name, "Search", "Lot", new { categoryId = Model.Category.Id }, null)</span>
     <h2>@Html.DisplayFor(model => model.Name)</h2>
-    @if (Model.Image == null)
-    {
-        <img class="image_max" src="~/Content/img/NoImage300px.png">
-    }
-    else
-    {
-        @Html.Raw("<a href=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" rel='lightgallery'><img class='image_max' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" /></a>")
-    }
-    <div>
-        @Html.DisplayNameFor(model => model.CurrentPrice) : @Html.DisplayFor(model => model.CurrentPrice) 
-        <br />
-        @if (User.IsInRole("User")) 
-        { 
-            if (!ViewBag.OwnerView)
-            {
-                using (Html.BeginForm("Create", "Bid", new { id = Model.Id }, FormMethod.Post))
+    
+    <div class="row">
+        <!--<div class="row">-->
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-5 text-right">@Html.DisplayNameFor(model => model.CurrentPrice) : </div>
+
+                    <div class="col-md-7 text-left">@Html.DisplayFor(model => model.CurrentPrice)</div>
+                </div>
+                <div class="row">
+                    @if (User.IsInRole("User"))
+                    {
+                        if (!ViewBag.OwnerView)
+                        {
+                            using (Html.BeginForm("Create", "Bid", new { id = Model.Id }, FormMethod.Post, new { @class = "form-group" }))
+                            {
+                                <div class="col-md-5 text-right">
+                                    Your bid in $ :
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="col-md-7">
+                                        @Html.TextBox("newBid", "", new { @class = "form-control" })
+                                    </div>
+        
+                                    <div class="col-md-5">
+                                        <input type="submit" class="btn btn-default" value="Make bid" />
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                            @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ActionLink("Bids", "Lot", "Bid", new { lotId = Model.Id }, null)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-right">
+                        @Html.DisplayNameFor(model => model.FinishDateTime) :
+                    </div>
+                    <div class="col-md-6 text-left">
+                        @Html.DisplayFor(model => model.FinishDateTime)
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.ActionLink("owner", "Details", "User", new { id = Model.OwnerId }, null)
+                </div>
+            </div>
+            <div class="col-md-5">
+                @if (Model.Image == null)
                 {
-                   @:Your bid in $ :
-                   @Html.TextBox("newBid") 
-                    //@Html.ValidateFor()
-                   <input type="submit" value="Make bid" />
+                    <img class="image_max" src="~/Content/img/NoImage300px.png">
                 }
-            
-            }
-            else
-            {
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id})
-                @Html.ActionLink("Delete", "Delete", new { id = Model.Id})
-            }
-        }
-        <br />
-        @Html.ActionLink("Bids", "Lot", "Bid", new { lotId = Model.Id }, null)
-        <br />
-        @Html.DisplayNameFor(model => model.FinishDateTime) : @Html.DisplayFor(model => model.FinishDateTime)
-        <br />
-        @Html.ActionLink("owner", "Details", "User", new { id = Model.OwnerId }, null)
+                else
+                {
+                    @Html.Raw("<a href=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" rel='lightgallery'><img class='image_max' src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Image) + "\" /></a>")
+                }
+            </div>
+    <!--    </div>-->
+
     </div>
 
     <table class="table table-striped" id="details">
